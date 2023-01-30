@@ -213,7 +213,9 @@ class SimpleFontelicoProgressDialog {
       TextStyle textStyle = const TextStyle(fontSize: 14),
       TextAlign textAlign = TextAlign.center,
       bool hideText = false,
-      Widget? loadingIndicator}) {
+      Widget? loadingIndicator,
+      Function? onBarrierTap,
+      }) {
     _indicatorColor = indicatorColor ?? Colors.blue[600];
     if (type == SimpleFontelicoProgressDialogType.custom) {
       assert(loadingIndicator != null,
@@ -228,7 +230,11 @@ class SimpleFontelicoProgressDialog {
         useSafeArea: true,
         builder: (BuildContext context) {
           return WillPopScope(
-            onWillPop: () => Future.value(barrierDimisable),
+            onWillPop: (){
+              if(onBarrierTap!=null) {
+                onBarrierTap();
+              }
+              return Future.value(barrierDimisable);},
             child: Dialog(
               backgroundColor: Colors.transparent,
               insetPadding: EdgeInsets.all(0.0),
